@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<title>移动端弹窗</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+	</style>
+	<link rel="stylesheet" href="popup.css">
+</head>
+<body>
+	<button id="alert">alert</button>
+	<button id="toast">toast</button>
+	<button id="confirm">confirm</button>
+	<button id="loading">loading</button>
+	<button id="close">close</button>
+
+	<script src='./popup.js'></script>
+	<script>
+		var alertElement = document.getElementById("alert");
+		var toastElement = document.getElementById("toast");
+		var confirmElement = document.getElementById("confirm");
+		var loadingElement = document.getElementById("loading");
+		var closeElement = document.getElementById("close");
+
+		alertElement.addEventListener("click", function() {
+			Popup.alert("您的操作有误", [
+				{name : "哈哈", ac : function() {alert("OK");}}
+			]);
+		});
+
+		toastElement.addEventListener("click", function() {
+			Popup.toast("退出吧", 1000);
+		});
+
+		confirmElement.addEventListener("click", function() {
+			Popup.confirm("AA", [
+				{name : "哈哈", ac : function() {alert("haha");}},
+				{name : "嘻嘻", ac : function() {alert("xixi");}},
+			]);
+		});
+		loadingElement.addEventListener("click", function() {
+			Popup.showLoading("loading...");
+		});
+		closeElement.addEventListener("click", function() {
+			Popup.close();
+		});
+	</script>
+</body>
+</html>
