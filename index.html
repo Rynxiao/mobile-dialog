@@ -28,18 +28,19 @@
 		var closeElement = document.getElementById("close");
 
 		alertElement.addEventListener("click", function() {
-			Popup.alert("您的操作有误", [
+			Popup.alert("哈哈哈", "您的操作有误", [
 				{name : "哈哈", ac : function() {alert("OK");}}
 			]);
 		});
 
 		toastElement.addEventListener("click", function() {
-			Popup.toast("退出吧", 1000);
+			Popup.toast("去吧，皮卡丘！", 1000);
 		});
 
 		confirmElement.addEventListener("click", function() {
 			Popup.confirm("AA", [
 				{name : "哈哈", ac : function() {alert("haha");}},
+				{name : "嘻嘻", ac : function() {alert("xixi");}},
 				{name : "嘻嘻", ac : function() {alert("xixi");}},
 			]);
 		});
