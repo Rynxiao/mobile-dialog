@@ -17,6 +17,7 @@
 	<button id="toast">toast</button>
 	<button id="confirm">confirm</button>
 	<button id="loading">loading</button>
+	<button id='progress'>progress</button>
 	<button id="close">close</button>
 
 	<script src='./popup.js'></script>
@@ -25,6 +26,7 @@
 		var toastElement = document.getElementById("toast");
 		var confirmElement = document.getElementById("confirm");
 		var loadingElement = document.getElementById("loading");
+		var progressElement = document.getElementById("progress")
 		var closeElement = document.getElementById("close");
 
 		alertElement.addEventListener("click", function() {
@@ -44,9 +46,25 @@
 				{name : "嘻嘻", ac : function() {alert("xixi");}},
 			]);
 		});
+
 		loadingElement.addEventListener("click", function() {
 			Popup.showLoading("loading...");
 		});
+
+		progressElement.addEventListener("click", function() {
+			var ProgressBar = Popup.progress();
+			var percent = 0;
+
+			var inter = setInterval(function() {
+				if (percent > 100) {
+					clearInterval(inter);
+				}
+				ProgressBar.update(percent);
+				percent++;
+			}, 50);
+			
+		});
+
 		closeElement.addEventListener("click", function() {
 			Popup.close();
 		});

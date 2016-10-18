@@ -1,5 +1,6 @@
 window.Popup = (function(d) {
 	var _instance = null,
+		_progressInstance = null,
 		doc = d.body,
 		docWidth = doc.clientWidth,
 		docHeight = doc.clientHeight;
@@ -22,9 +23,9 @@ window.Popup = (function(d) {
 		// loading
 		this.loadingText = '正在加载';
 		this.hasLoadingText = false;
-		this.spinNumber = 8;
-		this.loadingRadius = 18;
-		this.startAngle = 90;
+		this.spinNumber = 8;			// 菊花瓣数
+		this.loadingRadius = 18;		// 菊花半径
+		this.startAngle = 90;			// 正上方菊花角度
 		this.spinMargin = 2;
 	}
 
@@ -88,6 +89,8 @@ window.Popup = (function(d) {
 					this.dialogWrapper.className = 'ui-dialog ui-toast fade';
 				} else if(this.type === 'loading') {
 					this.dialogWrapper.className = 'ui-dialog ui-loading fade';
+				} else if(this.type === 'progress') {
+					this.dialogWrapper.className = 'ui-dialog ui-progress fade';
 				} else {
 					this.dialogWrapper.className = 'ui-dialog fade';
 				}
@@ -329,9 +332,135 @@ window.Popup = (function(d) {
 			this._removeMask();
 			this._removeWrapper();
 			_instance = null;
+			_progressInstance = null;
 		}
 	};
 
+	function Progress() {
+		Dialog.call(this);
+		this.percent = 0;
+		this.text = '正在更新程序';
+		this.innerBar = null;
+	}
+
+	/**
+	 * 继承
+	 * @param  {[type]} subClass   [description]
+	 * @param  {[type]} superClass [description]
+	 * @return {[type]}            [description]
+	 */
+	function inherit(subClass, superClass) {  
+	    function F() {}  
+	    F.prototype = superClass.prototype;  
+	    subClass.prototype = new F();  
+	    subClass.prototype.constructor = subClass;  
+	}  
+
+	/**
+	 * 继承条用
+	 */
+	inherit(Progress, Dialog);
+
+	/**
+	 * 创建进度条文字
+	 * @return {[type]} [description]
+	 */
+	Progress.prototype._createProgressText = function() {
+		var text = document.createElement('div');
+		text.className = 'ui-text';
+		text.textContent = this.text;
+		return text;
+	}
+
+	/**
+	 * 创建进度条
+	 * @return {[type]} [description]
+	 */
+	Progress.prototype._createProgressContent = function() {
+		var	content = document.createElement('div'), 
+			outer = document.createElement('div'),
+			inner = document.createElement('div');
+		content.className = 'ui-content';
+		outer.className = 'ui-outer';
+		inner.className = 'ui-inner';
+		outer.appendChild(inner);
+		content.appendChild(outer)
+
+		this.innerBar = inner;
+
+		return content;
+	}
+
+	/**
+	 * 进度条初始化
+	 * @return {[type]} [description]
+	 */
+	Progress.prototype.init = function() {
+		var text, content, bar, _this = this;
+		// 创建mask
+		this._createMask();
+		// 创建warpper
+		this._createWrapper();
+		
+		this.dialogWrapper.className = 'ui-dialog ui-progress fade';
+		
+		// 1. 创建文字
+		text = this._createProgressText();
+		// 2. 创建内容
+		content = this._createProgressContent();
+		// 3. 将文字和content加入到warpper中
+		this.dialogWrapper.appendChild(text);
+		this.dialogWrapper.appendChild(content);
+		// 4. 将warpper加入到body中
+		doc.appendChild(this.dialogWrapper);
+
+		setTimeout(function() {
+			_this.dialogWrapper.className = 'ui-dialog ui-progress fade in';
+		}, this.fadeInTime);
+	}
+
+	/**
+	 * 创建进度条
+	 * @return {[type]} [description]
+	 */
+	Progress.prototype.create = function() {
+		var args = arguments && arguments[0],
+			length = args && args.length;
+
+		if (length === 1) {
+			this.text = args[0];
+		}
+
+		this.type = 'progress';
+		this.init();
+		return this;
+	}
+
+	/**
+	 * 更新进度条进度
+	 * @return {[type]} [description]
+	 */
+	Progress.prototype.update = function(percent) {
+		if (this.percent === 100) {
+			this.close();
+		}
+		this.percent = percent;
+		this.innerBar.style.width = percent + '%';
+	}
+
+	/**
+	 * 关闭进度条
+	 * @return {[type]} [description]
+	 */
+	Progress.prototype.closeBar = function() {
+		this.percent = 0;
+		this.close();
+	}
+
+	/**
+	 * 获取dialog实例
+	 * @return {[type]} [description]
+	 */
 	function _getInstance() {
 		if (!_instance) {
 			_instance = new Dialog();
@@ -339,6 +468,20 @@ window.Popup = (function(d) {
 		return _instance;
 	}
 
+	/**
+	 * 获取进度条实例
+	 * @return {[type]} [description]
+	 */
+	function _getProgressInstance() {
+		if (!_progressInstance) {
+			_progressInstance = new Progress();
+		}
+		return _progressInstance;
+	}
+
+	/**
+	 * return 调用
+	 */
 	return {
 		alert : function() {
 			return _getInstance().confirm(arguments);
@@ -351,6 +494,9 @@ window.Popup = (function(d) {
 		},
 		showLoading : function() {
 			return _getInstance().showLoading(arguments);
+		},
+		progress : function() {
+			return _getProgressInstance().create(arguments);
 		},
 		close : function() {
 			return _getInstance().close();

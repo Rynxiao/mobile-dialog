@@ -123,7 +123,7 @@
 .ui-line-spin>div:nth-of-type(8) {
 	animation: line-spin 1.2s 0.96s ease-in-out infinite;
 }
-.ui-text {
+.ui-loading>.ui-text {
 	position: absolute;
 	width: 100%;
 	top: 60px;
@@ -132,6 +132,33 @@
 	font-size: 14px;
 	color: #fff;
 	border-radius: 0 0 5px 5px;
+}
+.ui-progress {
+	background-color: rgba(0, 0, 0, 0.7);
+	width: auto;
+	max-width: 65%;
+}
+.ui-progress>.ui-content {
+	width: 100%;
+	padding: 6px 20px 15px 20px;
+	box-sizing: border-box;
+}
+.ui-progress>.ui-content>.ui-outer {
+	height: 5px;
+	background-color: rgba(255, 255, 255, 0.5);
+	border-radius: 3px;
+}
+.ui-progress>.ui-content>.ui-outer>.ui-inner {
+	width: 0%;
+	height: 100%;
+	background-color: rgba(255, 255, 255, 0.8);
+	border-radius: inherit;
+}
+.ui-progress>.ui-text {
+	font-size: 14px;
+	line-height: 16px;
+	padding: 10px 20px;
+	color: #fff;
 }
 .fade {
 	opacity: 0;
