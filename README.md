@@ -41,7 +41,23 @@ Popup.showLoading("loading...");
 
 // 4.close
 // 关闭弹窗
-// Popup.close();
+Popup.close();
+
+// 5.progress
+// 文字可选，没填文字，默认"正在更新程序"
+// Popup.progress([content]);
+
+// 例如
+var ProgressBar = Popup.progress();
+var percent = 0;
+
+var inter = setInterval(function() {
+	if (percent > 100) {
+		clearInterval(inter);
+	}
+	ProgressBar.update(percent);
+	percent++;
+}, 50);
 ```
 
 ### 展示
@@ -61,3 +77,7 @@ Popup.showLoading("loading...");
 #### toast
 
 ![toast](./screensnaps/toast.png)
+
+#### progress
+
+![progress](./screensnaps/progress.png)
