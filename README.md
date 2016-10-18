@@ -1,6 +1,7 @@
 ﻿### 说明
 
 根据个人需求，闲时动手写写案例。
+
 这个demo中，主要写了移动端的几种弹窗类型，包括box(alert/confirm)、toast、loading等
 
 ### 使用
@@ -37,8 +38,26 @@ Popup.toast("去吧，皮卡丘！", 1000);
 
 // 例如
 Popup.showLoading("loading...");
+
+// 4.close
+// 关闭弹窗
+// Popup.close();
 ```
 
 ### 展示
 
+#### alert
 
+![alert](./screensnaps/alert.png)
+
+#### confirm
+
+![confirm](./screensnaps/confirm.png)
+
+#### loading 
+
+![loading](./screensnaps/loading.png)
+
+#### toast
+
+![toast](./screensnaps/toast.png)
