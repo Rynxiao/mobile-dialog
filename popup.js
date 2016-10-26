@@ -268,6 +268,11 @@ window.Popup = (function(d) {
 				this.content = args[0];
 				this.btns = args[1];
 				this.hasTitle = false;
+			} else {
+				// alert
+				this.hasTitle = false;
+				this.content = args[0];
+				this.btns = [{name : '确定'}]
 			}
 			this.type = 'confirm';
 			this._create();
